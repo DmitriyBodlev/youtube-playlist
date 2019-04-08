@@ -1,6 +1,6 @@
 import * as R from 'ramda';
-import { Box, Flex, GlobalStyle } from './ui'
 import React, { useState, useEffect } from 'react';
+import { Box, Flex, hoverStyles, GlobalStyle } from './ui'
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Helpers
@@ -24,7 +24,15 @@ export const VideoContent = ({ item }) => (
 );
 
 export const ListItem = (props) => (
-  <Box m='0 5px' cursor='pointer' onClick={() => props.setActiveVideo(getVideoIdByPath(props.item))}>
+  <Box
+    p='5px 5px 0'
+    m='0 5px 2px'
+    cursor='pointer'
+    hoverBg='lightgray'
+    additionalStyles={hoverStyles}
+    onClick={() => props.setActiveVideo(getVideoIdByPath(props.item))}
+    bg={R.and(R.equals(getVideoIdByPath(props.item), props.activeVideo), 'lightgray')}
+  >
     <img alt={props.item.title} title={getVideoTitle(props.item)} src={R.path(['thumbnails', 'default', 'url'], props.item)} />
   </Box>
 );
@@ -60,7 +68,11 @@ const App = () => {
           <Box p='5px 5px 0' mt='20px' border='1px solid lightgray' borderRadius='5px'>
             <Flex maxWidth='650px' width='calc(100vw - 40px)' overflow='auto' height='max-content'>
               {R.map((item) => (
-                <ListItem item={item} setActiveVideo={setActiveVideo} key={getVideoIdByPath(item)} />
+                <ListItem
+                  item={item}
+                  activeVideo={activeVideo}
+                  key={getVideoIdByPath(item)}
+                  setActiveVideo={setActiveVideo} />
               ), R.values(items))}
             </Flex>
           </Box>

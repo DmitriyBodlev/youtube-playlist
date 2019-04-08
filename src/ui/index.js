@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { css, createGlobalStyle } from 'styled-components';
 import {
   size,
   color,
@@ -61,6 +61,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 `
 
+export const hoverStyles = css`
+  &:hover {
+    background-color: ${({ hoverBg }) => hoverBg};
+  }
+`
+
 export const Box = styled.div`
   ${size}
   ${color}
@@ -78,6 +84,7 @@ export const Box = styled.div`
   ${borderColor}
   ${borderRadius}
   cursor: ${({ cursor }) => R.or(cursor, 'initial')};
+  ${({ additionalStyles }) => additionalStyles};
 `;
 
 export const Flex = styled(Box)`
